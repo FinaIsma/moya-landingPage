@@ -1,0 +1,639 @@
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Moya | Your Gentle Companion for Emotional Wellness</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&amp;family=Fraunces:opsz,wght@9..144,400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#9ECAD6",
+                        "accent": "#F5CBCB",
+                        "surface": "#FFEAEA",
+                        "sage": "#7BAE8F",
+                        "on-surface": "#2D3436",
+                        "on-surface-variant": "#636E72",
+                        "background": "#FFFBFA",
+                        "soft-blue": "#E3F2FD"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1.5rem",
+                        "lg": "2.5rem",
+                        "xl": "4rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Fraunces", "serif"],
+                        "body": ["Poppins", "sans-serif"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.05); opacity: 0.45; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
+        }
+
+        @keyframes float-slow {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-15px) translateX(10px); }
+        }
+
+        .animate-breathe { animation: breathe 8s ease-in-out infinite; }
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        .animate-float-delayed { animation: float 7s ease-in-out infinite 1s; }
+        .animate-float-slow { animation: float-slow 10s ease-in-out infinite; }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .shader-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        .glow-bg {
+            position: absolute;
+            width: 1000px;
+            height: 1000px;
+            background: radial-gradient(circle, rgba(158, 202, 214, 0.15) 0%, rgba(255, 251, 250, 0) 70%);
+            border-radius: 50%;
+            z-index: -1;
+            filter: blur(80px);
+        }
+
+        h1, h2, h3, h4 { font-family: 'Fraunces', serif; }
+        body { font-family: 'Poppins', sans-serif; }
+
+        .perspective-1000 { perspective: 1000px; }
+        .rotate-y-25 { transform: rotateY(25deg); }
+        .rotate-y-n25 { transform: rotateY(-25deg); }
+
+        .mockup-frame {
+            border: 12px solid #FFEAEA;
+            border-radius: 3.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .mockup-notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40%;
+            height: 24px;
+            background: #FFEAEA;
+            border-bottom-left-radius: 1rem;
+            border-bottom-right-radius: 1rem;
+            z-index: 20;
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Navbar auto-hide */
+        .navbar-hidden {
+            transform: translate(-50%, -150%);
+        }
+        nav {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface overflow-x-hidden">
+<!-- Navbar -->
+<nav class="fixed top-6 left-1/2 -translate-x-1/2 w-[90%] max-w-5xl z-50 glass rounded-full px-8 py-3 shadow-xl" id="main-nav">
+<div class="flex justify-between items-center">
+<div class="text-xl font-bold text-sage flex items-center gap-2">
+<img
+    src="assets/images/logo.png"
+    alt="Moya Logo"
+    class="w-8 h-6"
+/>
+            moya
+        </div>
+<div class="hidden md:flex gap-8 items-center">
+<a class="text-xs font-semibold hover:text-sage transition-colors" href="#home">Home</a>
+<a class="text-xs font-semibold hover:text-sage transition-colors" href="#features">Features</a>
+<a class="text-xs font-semibold hover:text-sage transition-colors" href="#preview">Inside Moya</a>
+<a class="text-xs font-semibold hover:text-sage transition-colors" href="#testimonials">Community</a>
+</div>
+<button class="bg-sage text-white px-6 py-2 rounded-full text-sm font-semibold hover:shadow-lg transition-all active:scale-95"><a href="https://bit.ly/moya-app-release" target="_blank">Begin Journey</a></button>
+</div>
+</nav>
+<!-- Hero Section -->
+<section class="relative min-h-[90vh] flex items-center pt-24 pb-16 overflow-hidden" id="home">
+<div class="shader-bg opacity-40">
+<canvas class="w-full h-full" id="shaderCanvas"></canvas>
+</div>
+<div class="max-w-5xl mx-auto px-8 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+<div class="scroll-reveal active">
+<div class="inline-block px-3 py-0.5 bg-primary/10 text-primary rounded-full text-[10px] font-bold uppercase tracking-widest mb-6 border border-primary/20">Your Emotional Sanctuary</div>
+<h1 class="text-4xl md:text-5xl font-bold leading-[1.2] mb-6 text-on-surface">A soft place for <br/><span class="text-sage italic">your heart</span> to land.</h1>
+<p class="text-lg text-on-surface-variant mb-10 leading-relaxed max-w-lg">
+                Every emotion is a message from within. Moya helps you listen with kindness, understanding, and a gentle spirit. Find your peace today.
+            </p>
+<div class="flex flex-wrap gap-6">
+<button class="bg-accent text-on-surface font-bold px-10 py-4 rounded-full text-base shadow-xl shadow-accent/30 hover:-translate-y-1 transition-all"><a href="https://bit.ly/moya-app-release" target="_blank" class="text-on-surface no-underline">Start Free Reflection</a></button>
+<button class="flex items-center gap-3 font-bold text-sage group text-sm">
+<span class="w-12 h-12 flex items-center justify-center rounded-full bg-white shadow-lg group-hover:bg-sage group-hover:text-white transition-all">
+<!-- <span class="material-symbols-outlined text-2xl">play_arrow</span>
+</span>
+                    See how it feels
+                </button> -->
+</div>
+</div>
+<div class="relative flex justify-center items-center scale-90">
+<!-- Decorative Floating Icons -->
+<span class="material-symbols-outlined absolute -top-8 -left-8 text-accent text-4xl animate-float opacity-60">favorite</span>
+<span class="material-symbols-outlined absolute top-1/4 -right-12 text-primary text-3xl animate-float-delayed opacity-60">auto_awesome</span>
+<span class="material-symbols-outlined absolute -bottom-6 -right-6 text-sage text-5xl animate-float-slow opacity-60">cloud</span>
+<div class="relative z-10 animate-float w-56 md:w-64 h-[480px] md:h-[530px] mockup-frame">
+<div class="mockup-notch"></div>
+<div class="w-full h-full rounded-[2.5rem] overflow-hidden">
+<img alt="Moya Dashboard" class="w-full h-full object-cover" src="assets/images/db.png"/>
+</div>
+</div>
+<div class="absolute -bottom-8 w-40 h-8 bg-black/5 blur-2xl rounded-full scale-x-150"></div>
+</div>
+</div>
+</section>
+<!-- Promotional Video Section -->
+<section class="py-24 px-8 md:px-16 relative bg-soft-blue/10 overflow-hidden">
+<div class="glow-bg top-0 right-0 opacity-40"></div>
+<div class="max-w-5xl mx-auto text-center scroll-reveal active">
+<div class="inline-block px-3 py-0.5 bg-accent/10 text-on-surface-variant rounded-full text-[10px] font-bold uppercase tracking-widest mb-4">Experience the Calm</div>
+<h2 class="text-3xl md:text-5xl font-bold mb-6">Guided by Moya</h2>
+<p class="text-base text-on-surface-variant mb-12 max-w-xl mx-auto">Take a breath and see how Moya transforms the way you relate to your emotions through a gentle, interactive interface.</p>
+<div class="relative max-w-4xl mx-auto group">
+<div class="absolute -inset-4 bg-gradient-to-tr from-primary/20 via-white/50 to-accent/20 rounded-[2.5rem] blur-xl opacity-70 group-hover:opacity-100 transition-opacity"></div>
+<div class="relative bg-white p-2 rounded-[2rem] shadow-2xl">
+<div class="aspect-video w-full rounded-[1.5rem] overflow-hidden bg-surface relative">
+<video autoplay="" class="w-full h-full object-cover" loop="" muted="">
+<source src="assets/videos/promotion.mp4" type="video/mp4"/>
+</video>
+<!-- <div class="absolute inset-0 bg-black/5 flex items-center justify-center">
+<span class="material-symbols-outlined text-6xl text-white opacity-40">play_circle</span> -->
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- About Product Section -->
+<section class="py-24 px-8 md:px-16 relative bg-background">
+<div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+<div class="relative scroll-reveal flex justify-center active">
+<div class="aspect-square bg-gradient-to-tr from-accent/20 to-primary/20 rounded-full absolute -inset-6 animate-breathe"></div>
+<div class="relative z-10 w-56 md:w-64 h-[460px] md:h-[530px] mockup-frame rotate-3">
+<div class="mockup-notch"></div>
+<div class="w-full h-full rounded-[2.5rem] overflow-hidden">
+<img alt="Supportive companion mockup" class="w-full h-full object-cover" src="assets/images/splash.png"/>
+</div>
+</div>
+</div>
+<div class="scroll-reveal active">
+<div class="inline-block px-3 py-0.5 bg-sage/10 text-sage rounded-full text-[10px] font-bold uppercase tracking-widest mb-6">The Moya Philosophy</div>
+<h2 class="text-3xl md:text-4xl font-bold mb-8 leading-tight">When the world feels too loud, Moya is here to listen.</h2>
+<div class="space-y-6 text-base text-on-surface-variant leading-relaxed mb-10">
+<p>Life doesn't always wait for us to catch our breath. We often find ourselves <strong>feeling overwhelmed</strong>, keeping heavy emotions locked inside.</p>
+<p><strong>Moya was born to change that.</strong> We position ourselves not just as an app, but as a supportive emotional companion.</p>
+</div>
+<div class="grid grid-cols-2 gap-8">
+<div class="space-y-3">
+<span class="material-symbols-outlined text-3xl text-accent">favorite</span>
+<h4 class="text-lg font-bold">Safe Holding</h4>
+<p class="text-xs text-on-surface-variant leading-relaxed">A judgment-free zone for your most private reflections.</p>
+</div>
+<div class="space-y-3">
+<span class="material-symbols-outlined text-3xl text-primary">auto_awesome</span>
+<h4 class="text-lg font-bold">Gentle Clarity</h4>
+<p class="text-xs text-on-surface-variant leading-relaxed">Understand your inner rhythms with soft, visual insights.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Features Section -->
+<section class="py-24 px-8 md:px-16 relative bg-surface/20" id="features">
+<div class="glow-bg bottom-0 left-0 opacity-30"></div>
+<div class="max-w-5xl mx-auto">
+<div class="text-center max-w-3xl mx-auto mb-16 scroll-reveal active">
+<div class="inline-block px-3 py-0.5 bg-primary/10 text-primary rounded-full text-[10px] font-bold uppercase tracking-widest mb-4">Transitioning to Growth</div>
+<h2 class="text-3xl md:text-5xl font-bold mb-6">Nurturing your inner world.</h2>
+<p class="text-lg text-on-surface-variant">Discover the gentle tools designed to help you navigate your emotional landscape with ease and grace.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Mood Tracking -->
+<div class="group glass p-7 rounded-xl hover:-translate-y-2 transition-all duration-500 hover:shadow-xl hover:bg-white scroll-reveal active">
+<div class="w-12 h-12 bg-accent/20 text-accent rounded-full flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-2xl">wb_sunny</span>
+</div>
+<h3 class="text-xl font-bold mb-3">Mood Tracking</h3>
+<p class="text-xs text-on-surface-variant leading-relaxed">Check in daily with our friendly mood characters to build emotional awareness over time.</p>
+</div>
+<!-- Online Journaling -->
+<div class="group glass p-7 rounded-xl hover:-translate-y-2 transition-all duration-500 hover:shadow-xl hover:bg-white scroll-reveal active">
+<div class="w-12 h-12 bg-primary/20 text-primary rounded-full flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-2xl">edit_note</span>
+</div>
+<h3 class="text-xl font-bold mb-3">Online Journaling</h3>
+<p class="text-xs text-on-surface-variant leading-relaxed">A beautiful, private digital journal for your self-reflections and midnight thoughts.</p>
+</div>
+<!-- Emotional Analytics -->
+<div class="group glass p-7 rounded-xl hover:-translate-y-2 transition-all duration-500 hover:shadow-xl hover:bg-white scroll-reveal active">
+<div class="w-12 h-12 bg-sage/20 text-sage rounded-full flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-2xl">insights</span>
+</div>
+<h3 class="text-xl font-bold mb-3">Emotional Analytics</h3>
+<p class="text-xs text-on-surface-variant leading-relaxed">Visualize your emotional trends and download detailed reports to track your wellness journey.</p>
+</div>
+<!-- Anonymous Community -->
+<div class="group glass p-7 rounded-xl hover:-translate-y-2 transition-all duration-500 hover:shadow-xl hover:bg-white scroll-reveal active">
+<div class="w-12 h-12 bg-accent/20 text-accent rounded-full flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-2xl">groups</span>
+</div>
+<h3 class="text-xl font-bold mb-3">Anonymous Community</h3>
+<p class="text-xs text-on-surface-variant leading-relaxed">Share your stories and find resonance in a safe, completely anonymous social space.</p>
+</div>
+<!-- Expert Support -->
+<div class="group glass p-7 rounded-xl hover:-translate-y-2 transition-all duration-500 hover:shadow-xl hover:bg-white scroll-reveal active">
+<div class="w-12 h-12 bg-primary/20 text-primary rounded-full flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-2xl">psychology</span>
+</div>
+<h3 class="text-xl font-bold mb-3">Expert Support</h3>
+<p class="text-xs text-on-surface-variant leading-relaxed">Directly access trusted psychologists for professional guidance when you need it most.</p>
+</div>
+<!-- Personalized Care -->
+<div class="group glass p-7 rounded-xl hover:-translate-y-2 transition-all duration-500 hover:shadow-xl hover:bg-white scroll-reveal active">
+<div class="w-12 h-12 bg-sage/20 text-sage rounded-full flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-2xl">auto_fix_high</span>
+</div>
+<h3 class="text-xl font-bold mb-3">Personalized Care</h3>
+<p class="text-xs text-on-surface-variant leading-relaxed">Get dynamic activity recommendations like breathing or prompts based on how you feel.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- App Preview -->
+<section class="py-24 bg-white relative overflow-hidden" id="preview">
+<div class="max-w-5xl mx-auto px-8 md:px-16 mb-16 text-center scroll-reveal active">
+<div class="inline-block px-3 py-0.5 bg-accent/10 text-accent rounded-full text-[10px] font-bold uppercase tracking-widest mb-4">Step Inside</div>
+<h2 class="text-3xl md:text-5xl font-bold mb-6">A space for every feeling.</h2>
+<p class="text-lg text-on-surface-variant max-w-2xl mx-auto">From daily reflections to professional insights, explore how Moya supports every corner of your heart.</p>
+</div>
+<div class="max-w-5xl mx-auto px-8 md:px-16 scroll-reveal active relative group/carousel">
+<button class="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full glass flex items-center justify-center shadow-lg hover:bg-white transition-all active:scale-95 opacity-0 group-hover/carousel:opacity-100 hidden md:flex" onclick="document.getElementById('preview-scroller').scrollBy({left: -320, behavior: 'smooth'})">
+<span class="material-symbols-outlined text-2xl text-on-surface-variant">chevron_left</span>
+</button>
+<button class="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full glass flex items-center justify-center shadow-lg hover:bg-white transition-all active:scale-95 opacity-0 group-hover/carousel:opacity-100 hidden md:flex" onclick="document.getElementById('preview-scroller').scrollBy({left: 320, behavior: 'smooth'})">
+<span class="material-symbols-outlined text-2xl text-on-surface-variant">chevron_right</span>
+</button>
+<div class="flex overflow-x-auto gap-8 pb-10 no-scrollbar scroll-smooth snap-x snap-mandatory px-4" id="preview-scroller">
+<!-- Screen 1 -->
+<div class="flex-none w-52 md:w-60 mockup-frame snap-center">
+<div class="mockup-notch"></div>
+<div class="aspect-[9/19.5]">
+<img alt="Mood Tracker" class="w-full h-full object-contain" src="assets/images/moodInput.png"/>
+</div>
+</div>
+<!-- Screen 2 -->
+<div class="flex-none w-52 md:w-60 mockup-frame snap-center">
+<div class="mockup-notch"></div>
+<div class="aspect-[9/19.5]">
+<img alt="Statistics" class="w-full h-full object-contain" src="assets/images/analytics.png"/>
+</div>
+</div>
+<!-- Screen 3 -->
+<div class="flex-none w-52 md:w-60 mockup-frame snap-center ring-4 ring-sage/10">
+<div class="mockup-notch"></div>
+<div class="aspect-[9/19.5]">
+<img alt="Dashboard" class="w-full h-full object-contain" src="assets/images/chat.png"/>
+</div>
+</div>
+<!-- Screen 4 -->
+<div class="flex-none w-52 md:w-60 mockup-frame snap-center">
+<div class="mockup-notch"></div>
+<div class="aspect-[9/19.5]">
+<img alt="Chat Consultation" class="w-full h-full object-cover" src="assets/images/support.png"/>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Testimonials -->
+<section class="py-24 px-8 md:px-16 relative bg-surface/30" id="testimonials">
+<div class="max-w-5xl mx-auto">
+<div class="max-w-md mx-auto text-center mb-12 scroll-reveal active">
+<div class="inline-block px-3 py-0.5 bg-sage/10 text-sage rounded-full text-[10px] font-bold uppercase tracking-widest mb-4">Real Connections</div>
+<h4 class="text-lg md:text-xl font-bold italic text-on-surface-variant leading-relaxed">"A warm blanket for my mind on the hardest days."</h4>
+</div>
+<div class="flex overflow-x-auto gap-6 pb-10 no-scrollbar snap-x snap-mandatory">
+<!-- Review Card 1 -->
+<div class="flex-none w-full md:w-[calc(33.33%-1rem)] snap-center bg-white p-7 rounded-[2rem] shadow-xl border border-white">
+<div class="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center mb-5 border-4 border-surface shadow-md mx-auto">
+    <span class="material-symbols-outlined text-primary text-3xl">
+        person
+    </span>
+</div>
+<p class="text-xs text-on-surface-variant italic mb-5 text-center leading-relaxed">"Awalnya cuma coba-coba buat mood tracking, ternyata jadi lebih sadar sama kondisi diri sendiri. Journaling-nya juga enak dipakai pas lagi banyak pikiran."</p>
+<div class="text-center">
+<h5 class="text-sm font-bold text-on-surface">Fina I</h5>
+<p class="text-[10px] text-sage font-bold uppercase tracking-wider">Students</p>
+</div>
+</div>
+<!-- Review Card 2 -->
+<div class="flex-none w-full md:w-[calc(33.33%-1rem)] snap-center bg-white p-7 rounded-[2rem] shadow-xl border border-white">
+<div class="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center mb-5 border-4 border-surface shadow-md mx-auto">
+    <span class="material-symbols-outlined text-primary text-3xl">
+        person
+    </span>
+</div>
+<p class="text-xs text-on-surface-variant italic mb-5 text-center leading-relaxed">"Fitur analisis emosinya membantu lihat pola suasana hati dalam beberapa minggu terakhir. Jadi lebih mudah memahami apa yang memengaruhi mood sehari-hari."</p>
+<div class="text-center">
+<h5 class="text-sm font-bold text-on-surface">Radith F</h5>
+<p class="text-[10px] text-sage font-bold uppercase tracking-wider">Students</p>
+</div>
+</div>
+<!-- Review Card 3 -->
+<div class="flex-none w-full md:w-[calc(33.33%-1rem)] snap-center bg-white p-7 rounded-[2rem] shadow-xl border border-white">
+<div class="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center mb-5 border-4 border-surface shadow-md mx-auto">
+    <span class="material-symbols-outlined text-primary text-3xl">
+        person
+    </span>
+</div>
+<p class="text-xs text-on-surface-variant italic mb-5 text-center leading-relaxed">"Komunitas anonimnya cukup nyaman karena bisa berbagi cerita tanpa khawatir identitas diketahui. Tampilannya juga sederhana dan mudah digunakan."</p>
+<div class="text-center">
+<h5 class="text-sm font-bold text-on-surface">Shinta D</h5>
+<p class="text-[10px] text-sage font-bold uppercase tracking-wider">Students</p>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
+<div class="text-center p-6 glass rounded-[2rem] scroll-reveal active">
+<h4 class="text-3xl font-bold text-sage mb-1">95%</h4>
+<p class="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest">More at peace</p>
+</div>
+<div class="text-center p-6 glass rounded-[2rem] scroll-reveal active" style="transition-delay: 100ms;">
+<h4 class="text-3xl font-bold text-accent mb-1">1.2M</h4>
+<p class="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest">Reflections</p>
+</div>
+<div class="text-center p-6 glass rounded-[2rem] scroll-reveal active" style="transition-delay: 200ms;">
+<h4 class="text-3xl font-bold text-primary mb-1">4.9</h4>
+<p class="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest">Store Rating</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Resources Section -->
+<section class="py-24 px-8 md:px-16 relative bg-background overflow-hidden" id="resources">
+<div class="glow-bg top-1/2 left-0 opacity-20"></div>
+<div class="max-w-5xl mx-auto">
+<div class="text-center mb-16 scroll-reveal active">
+<div class="inline-block px-3 py-0.5 bg-primary/10 text-primary rounded-full text-[10px] font-bold uppercase tracking-widest mb-4">Deepen Your Practice</div>
+<h2 class="text-3xl md:text-5xl font-bold mb-6">Learning &amp; Resources</h2>
+<p class="text-lg text-on-surface-variant max-w-xl mx-auto">Explore our curated collection of guides and documentation to make the most of your journey.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Resource 1 -->
+<div class="bg-white rounded-[2rem] overflow-hidden shadow-xl hover:shadow-2xl transition-all group scroll-reveal border border-surface/30 active">
+<div class="h-48 bg-accent/10 relative overflow-hidden">
+<img alt="Manual Book" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" src="assets/images/manual.jpg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-accent/40 to-transparent"></div>
+</div>
+<div class="p-7">
+<h4 class="text-xl font-bold mb-3">Manual Book</h4>
+<p class="text-on-surface-variant mb-6 text-xs leading-relaxed">A comprehensive guide on emotional intelligence and how to use Moya features effectively.</p>
+<button class="w-full py-3 rounded-full border-2 border-accent text-on-surface text-sm font-bold hover:bg-accent hover:text-white transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg">download</span> <a href="https://drive.google.com/file/d/1yUf2mrRE0LMLpU5bxDXnO-Bs-W_e9Y0i/view?usp=sharing" target="_blank">Download PDF</a>
+                    </button>
+</div>
+</div>
+<!-- Resource 2 -->
+<div class="bg-white rounded-[2rem] overflow-hidden shadow-xl hover:shadow-2xl transition-all group scroll-reveal border border-surface/30 active" style="transition-delay: 100ms;">
+<div class="h-48 bg-primary/10 relative overflow-hidden">
+<img alt="Promotional Poster" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" src="assets/images/poster.png"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
+</div>
+<div class="p-7">
+<h4 class="text-xl font-bold mb-3">Promotional Poster</h4>
+<p class="text-on-surface-variant mb-6 text-xs leading-relaxed">Visual reminders for mindfulness and self-care. Perfect for your home or office space.</p>
+<button class="w-full py-3 rounded-full border-2 border-primary text-on-surface text-sm font-bold hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg">image</span> <a href="assets/images/poster.png" target="_blank"s>
+View Poster
+</a>
+                    </button>
+</div>
+</div>
+<!-- Resource 3 -->
+<div class="bg-white rounded-[2rem] overflow-hidden shadow-xl hover:shadow-2xl transition-all group scroll-reveal border border-surface/30 active" style="transition-delay: 200ms;">
+<div class="h-48 bg-sage/10 relative overflow-hidden">
+<img alt="Project Documentation" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" src="assets/images/cover.jpg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-sage/40 to-transparent"></div>
+</div>
+<div class="p-7">
+<h4 class="text-xl font-bold mb-3">Project Documentation</h4>
+<p class="text-on-surface-variant mb-6 text-xs leading-relaxed">Access the complete final report, including system requirements and testing results.</p>
+<button class="w-full py-3 rounded-full border-2 border-sage text-on-surface text-sm font-bold hover:bg-sage hover:text-white transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg">menu_book</span><a href="https://drive.google.com/file/d/1HBz-fNq4TZAeBP8vhO45nfUB65XI_can/view?usp=sharing" target="_blank">Open Docs</a>
+                    </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Technology Stack -->
+<section class="py-24 px-8 md:px-16 bg-soft-blue/5">
+<div class="max-w-5xl mx-auto text-center scroll-reveal active">
+<h2 class="text-2xl font-bold mb-12">Built with Care &amp; Innovation</h2>
+<div class="flex flex-wrap justify-center gap-10 md:gap-16 opacity-60">
+<div class="flex flex-col items-center gap-2">
+<span class="material-symbols-outlined text-4xl">flutter_dash</span>
+<span class="font-bold text-[10px]">Flutter</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<span class="material-symbols-outlined text-4xl">code</span>
+<span class="font-bold text-[10px]">Dart</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<span class="material-symbols-outlined text-4xl">database</span>
+<span class="font-bold text-[10px]">Firebase</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<span class="material-symbols-outlined text-4xl">storage</span>
+<span class="font-bold text-[10px]">Firestore</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<span class="material-symbols-outlined text-4xl">cloud_upload</span>
+<span class="font-bold text-[10px]">Cloudinary</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Final CTA Section -->
+<section class="py-24 px-8 md:px-16 relative">
+<div class="max-w-4xl mx-auto rounded-[2.5rem] bg-gradient-to-br from-primary via-surface to-accent p-10 md:p-14 text-center shadow-2xl relative overflow-hidden scroll-reveal active">
+<div class="absolute top-0 left-0 w-48 h-48 bg-white/20 blur-[60px] animate-breathe"></div>
+<div class="absolute bottom-0 right-0 w-48 h-48 bg-sage/20 blur-[60px] animate-breathe"></div>
+<div class="relative z-10">
+<h2 class="text-3xl md:text-4xl font-bold mb-6 leading-tight">Your Feelings Matter.</h2>
+<p class="text-base text-on-surface-variant mb-8 max-w-lg mx-auto leading-relaxed">Start your journey today and build a more compassionate relationship with yourself.</p>
+<div class="flex flex-col sm:flex-row justify-center gap-4">
+<button class="bg-on-surface text-white px-8 py-3.5 rounded-full text-base font-bold hover:shadow-2xl hover:-translate-y-1 transition-all"><a href="https://bit.ly/moya-app-release" target="_blank" class="text-white no-underline">Download App</a></button>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="py-20 px-8 md:px-16 border-t border-surface bg-white/50">
+<div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
+<div class="space-y-6">
+<div class="text-2xl font-bold text-sage flex items-center gap-2">
+<img
+    src="assets/images/logo.png"
+    alt="Moya Logo"
+    class="w-8 h-6"
+/>
+                moya
+            </div>
+<p class="text-on-surface-variant leading-relaxed text-xs">A sanctuary for emotional intelligence and mindful living. Created with love for the human spirit.</p>
+<div class="flex gap-6">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-sage transition-colors text-lg">favorite</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-sage transition-colors text-lg">nest_eco_leaf</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-sage transition-colors text-lg">self_improvement</span>
+</div>
+</div>
+<div>
+</ul>
+</div>
+<div>
+<h5 class="font-bold mb-6 text-sm">Resources</h5>
+<ul class="space-y-3 text-on-surface-variant text-xs">
+<li><a class="hover:text-sage" href="#">Soul Journal</a></li>
+<li><a class="hover:text-sage" href="https://drive.google.com/file/d/1yUf2mrRE0LMLpU5bxDXnO-Bs-W_e9Y0i/view?usp=sharing" target="_blank">Peaceful Guide</a></li>
+<li><a class="hover:text-sage" href="#">Help Center</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-bold mb-6 text-sm">Contact</h5>
+<p class="text-on-surface-variant mb-3 text-xs">We're here to listen.</p>
+<p class="font-bold text-sage text-base">hello@moya.app</p>
+</div>
+</div>
+<div class="max-w-5xl mx-auto mt-16 pt-10 border-t border-surface flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-semibold text-on-surface-variant/70 tracking-widest">
+<p>© 2026 MOYA WELLNESS. YOU ARE ENOUGH.</p>
+<div class="flex gap-8">
+<a class="hover:text-sage" href="#">PRIVACY</a>
+<a class="hover:text-sage" href="#">TERMS</a>
+<a class="hover:text-sage" href="#">COOKIE POLICY</a>
+</div>
+</div>
+</footer>
+<script>
+    // --- Navbar Auto-hide Behavior ---
+    let lastScroll = 0;
+    const navbar = document.getElementById('main-nav');
+
+    window.addEventListener('scroll', () => {
+        const currentScroll = window.pageYOffset;
+
+        if (currentScroll <= 0) {
+            navbar.classList.remove('navbar-hidden');
+            return;
+        }
+
+        if (currentScroll > lastScroll && !navbar.classList.contains('navbar-hidden')) {
+            // Scroll down
+            navbar.classList.add('navbar-hidden');
+        } else if (currentScroll < lastScroll && navbar.classList.contains('navbar-hidden')) {
+            // Scroll up
+            navbar.classList.remove('navbar-hidden');
+        }
+        lastScroll = currentScroll;
+    });
+
+    // --- GLSL Background Shader ---
+    const canvas = document.getElementById('shaderCanvas');
+    const gl = canvas.getContext('webgl');
+
+    if (gl) {
+        function resizeCanvas() {
+            canvas.width = canvas.clientWidth;
+            canvas.height = canvas.clientHeight;
+            gl.viewport(0, 0, canvas.width, canvas.height);
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const vertexShaderSource = `
+            attribute vec2 position;
+            varying vec2 v_texCoord;
+            void main() {
+                v_texCoord = position * 0.5 + 0.5;
+                v_texCoord.y = 1.0 - v_texCoord.y;
+                gl_Position = vec4(position, 0.0, 1.0);
+            }
+        `;
+
+        const fragmentShaderSource = `
+            precision highp float;
+            varying vec2 v_texCoord;
+            uniform float u_time;
+            
+            void main() {
+                vec2 uv = v_texCoord;
+                float noise = sin(uv.x * 3.0 + u_time * 0.2) * cos(uv.y * 2.0 - u_time * 0.3) * 0.1;
+                gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0); // Minimal placeholder shader
+            }
+        `;
+        // Shader setup omitted for brevity in minimal diff, maintaining structure
+    }
+
+    // Scroll reveal observer
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+</script>
+</body></html>
