@@ -134,18 +134,60 @@
         nav {
             transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
+        /* Mobile menu */
+        #mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 40;
+            background: rgba(255, 251, 250, 0.97);
+            backdrop-filter: blur(20px);
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+        }
+        #mobile-menu.open {
+            display: flex;
+        }
+
+        /* Hamburger */
+        .hamburger span {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background: #7BAE8F;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+        .hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+        /* Responsive fixes */
+        @media (max-width: 640px) {
+            .hero-mockup-wrapper {
+                transform: scale(0.75);
+                margin-top: -2rem;
+                margin-bottom: -2rem;
+            }
+            .glow-bg {
+                width: 400px;
+                height: 400px;
+            }
+        }
     </style>
 </head>
 <body class="bg-background text-on-surface overflow-x-hidden">
 <!-- Navbar -->
-<nav class="fixed top-6 left-1/2 -translate-x-1/2 w-[90%] max-w-5xl z-50 glass rounded-full px-8 py-3 shadow-xl" id="main-nav">
+<nav class="fixed top-6 left-1/2 -translate-x-1/2 w-[90%] max-w-5xl z-50 glass rounded-full px-6 py-3 shadow-xl" id="main-nav">
 <div class="flex justify-between items-center">
 <div class="text-xl font-bold text-sage flex items-center gap-2">
-<img
-    src="assets/images/logo.png"
-    alt="Moya Logo"
-    class="w-8 h-6"
-/>
+<img src="assets/images/logo.png" alt="Moya Logo" class="w-8 h-6"/>
             moya
         </div>
 <div class="hidden md:flex gap-8 items-center">
@@ -154,37 +196,45 @@
 <a class="text-xs font-semibold hover:text-sage transition-colors" href="#preview">Inside Moya</a>
 <a class="text-xs font-semibold hover:text-sage transition-colors" href="#testimonials">Community</a>
 </div>
-<button class="bg-sage text-white px-6 py-2 rounded-full text-sm font-semibold hover:shadow-lg transition-all active:scale-95"><a href="https://bit.ly/moya-app-release" target="_blank">Begin Journey</a></button>
+<div class="flex items-center gap-3">
+<button class="bg-sage text-white px-5 py-2 rounded-full text-xs font-semibold hover:shadow-lg transition-all active:scale-95 hidden sm:block"><a href="https://bit.ly/moya-app-release" target="_blank" class="text-white no-underline">Begin Journey</a></button>
+<button class="hamburger md:hidden flex flex-col gap-[5px] p-1" id="hamburger-btn" onclick="toggleMobileMenu()" aria-label="Open menu">
+  <span></span><span></span><span></span>
+</button>
+</div>
 </div>
 </nav>
+<!-- Mobile Menu Overlay -->
+<div id="mobile-menu">
+  <div class="text-3xl font-bold text-sage mb-2" style="font-family:'Fraunces',serif;">moya</div>
+  <a class="text-xl font-semibold hover:text-sage transition-colors" href="#home" onclick="closeMobileMenu()">Home</a>
+  <a class="text-xl font-semibold hover:text-sage transition-colors" href="#features" onclick="closeMobileMenu()">Features</a>
+  <a class="text-xl font-semibold hover:text-sage transition-colors" href="#preview" onclick="closeMobileMenu()">Inside Moya</a>
+  <a class="text-xl font-semibold hover:text-sage transition-colors" href="#testimonials" onclick="closeMobileMenu()">Community</a>
+  <a href="https://bit.ly/moya-app-release" target="_blank" onclick="closeMobileMenu()" class="mt-6 bg-sage text-white px-8 py-3 rounded-full text-base font-bold hover:shadow-lg transition-all">Begin Journey</a>
+</div>
 <!-- Hero Section -->
 <section class="relative min-h-[90vh] flex items-center pt-24 pb-16 overflow-hidden" id="home">
 <div class="shader-bg opacity-40">
 <canvas class="w-full h-full" id="shaderCanvas"></canvas>
 </div>
-<div class="max-w-5xl mx-auto px-8 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-<div class="scroll-reveal active">
-<div class="inline-block px-3 py-0.5 bg-primary/10 text-primary rounded-full text-[10px] font-bold uppercase tracking-widest mb-6 border border-primary/20">Your Emotional Sanctuary</div>
-<h1 class="text-4xl md:text-5xl font-bold leading-[1.2] mb-6 text-on-surface">A soft place for <br/><span class="text-sage italic">your heart</span> to land.</h1>
-<p class="text-lg text-on-surface-variant mb-10 leading-relaxed max-w-lg">
+<div class="max-w-5xl mx-auto px-6 sm:px-8 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center w-full">
+<div class="scroll-reveal active text-center lg:text-left">
+<div class="inline-block px-3 py-0.5 bg-primary/10 text-primary rounded-full text-[10px] font-bold uppercase tracking-widest mb-5 border border-primary/20">Your Emotional Sanctuary</div>
+<h1 class="text-3xl sm:text-4xl md:text-5xl font-bold leading-[1.2] mb-5 text-on-surface">A soft place for <br/><span class="text-sage italic">your heart</span> to land.</h1>
+<p class="text-base sm:text-lg text-on-surface-variant mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0">
                 Every emotion is a message from within. Moya helps you listen with kindness, understanding, and a gentle spirit. Find your peace today.
             </p>
-<div class="flex flex-wrap gap-6">
-<button class="bg-accent text-on-surface font-bold px-10 py-4 rounded-full text-base shadow-xl shadow-accent/30 hover:-translate-y-1 transition-all"><a href="https://bit.ly/moya-app-release" target="_blank" class="text-on-surface no-underline">Start Free Reflection</a></button>
-<button class="flex items-center gap-3 font-bold text-sage group text-sm">
-<span class="w-12 h-12 flex items-center justify-center rounded-full bg-white shadow-lg group-hover:bg-sage group-hover:text-white transition-all">
-<!-- <span class="material-symbols-outlined text-2xl">play_arrow</span>
-</span>
-                    See how it feels
-                </button> -->
+<div class="flex flex-wrap gap-4 justify-center lg:justify-start">
+<button class="bg-accent text-on-surface font-bold px-8 py-3.5 rounded-full text-sm sm:text-base shadow-xl shadow-accent/30 hover:-translate-y-1 transition-all"><a href="https://bit.ly/moya-app-release" target="_blank" class="text-on-surface no-underline">Start Free Reflection</a></button>
 </div>
 </div>
-<div class="relative flex justify-center items-center scale-90">
+<div class="relative flex justify-center items-center mt-4 lg:mt-0">
 <!-- Decorative Floating Icons -->
-<span class="material-symbols-outlined absolute -top-8 -left-8 text-accent text-4xl animate-float opacity-60">favorite</span>
-<span class="material-symbols-outlined absolute top-1/4 -right-12 text-primary text-3xl animate-float-delayed opacity-60">auto_awesome</span>
-<span class="material-symbols-outlined absolute -bottom-6 -right-6 text-sage text-5xl animate-float-slow opacity-60">cloud</span>
-<div class="relative z-10 animate-float w-56 md:w-64 h-[480px] md:h-[530px] mockup-frame">
+<span class="material-symbols-outlined absolute -top-6 left-2 sm:-left-8 text-accent text-3xl animate-float opacity-60 hidden sm:block">favorite</span>
+<span class="material-symbols-outlined absolute top-1/4 -right-4 sm:-right-12 text-primary text-2xl animate-float-delayed opacity-60 hidden sm:block">auto_awesome</span>
+<span class="material-symbols-outlined absolute -bottom-4 right-2 sm:-right-6 text-sage text-4xl animate-float-slow opacity-60 hidden sm:block">cloud</span>
+<div class="relative z-10 animate-float w-44 sm:w-56 md:w-64 h-[360px] sm:h-[480px] md:h-[530px] mockup-frame">
 <div class="mockup-notch"></div>
 <div class="w-full h-full rounded-[2.5rem] overflow-hidden">
 <img alt="Moya Dashboard" class="w-full h-full object-cover" src="assets/images/db.png"/>
@@ -195,12 +245,12 @@
 </div>
 </section>
 <!-- Promotional Video Section -->
-<section class="py-24 px-8 md:px-16 relative bg-soft-blue/10 overflow-hidden">
+<section class="py-16 sm:py-24 px-6 sm:px-8 md:px-16 relative bg-soft-blue/10 overflow-hidden">
 <div class="glow-bg top-0 right-0 opacity-40"></div>
 <div class="max-w-5xl mx-auto text-center scroll-reveal active">
 <div class="inline-block px-3 py-0.5 bg-accent/10 text-on-surface-variant rounded-full text-[10px] font-bold uppercase tracking-widest mb-4">Experience the Calm</div>
-<h2 class="text-3xl md:text-5xl font-bold mb-6">Guided by Moya</h2>
-<p class="text-base text-on-surface-variant mb-12 max-w-xl mx-auto">Take a breath and see how Moya transforms the way you relate to your emotions through a gentle, interactive interface.</p>
+<h2 class="text-2xl sm:text-3xl md:text-5xl font-bold mb-6">Guided by Moya</h2>
+<p class="text-sm sm:text-base text-on-surface-variant mb-8 sm:mb-12 max-w-xl mx-auto">Take a breath and see how Moya transforms the way you relate to your emotions through a gentle, interactive interface.</p>
 <div class="relative max-w-4xl mx-auto group">
 <div class="absolute -inset-4 bg-gradient-to-tr from-primary/20 via-white/50 to-accent/20 rounded-[2.5rem] blur-xl opacity-70 group-hover:opacity-100 transition-opacity"></div>
 <div class="relative bg-white p-2 rounded-[2rem] shadow-2xl">
@@ -217,11 +267,11 @@
 </div>
 </section>
 <!-- About Product Section -->
-<section class="py-24 px-8 md:px-16 relative bg-background">
-<div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-<div class="relative scroll-reveal flex justify-center active">
+<section class="py-16 sm:py-24 px-6 sm:px-8 md:px-16 relative bg-background">
+<div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-16 items-center">
+<div class="relative scroll-reveal flex justify-center active order-1 lg:order-none">
 <div class="aspect-square bg-gradient-to-tr from-accent/20 to-primary/20 rounded-full absolute -inset-6 animate-breathe"></div>
-<div class="relative z-10 w-56 md:w-64 h-[460px] md:h-[530px] mockup-frame rotate-3">
+<div class="relative z-10 w-44 sm:w-56 md:w-64 h-[360px] sm:h-[460px] md:h-[530px] mockup-frame rotate-3">
 <div class="mockup-notch"></div>
 <div class="w-full h-full rounded-[2.5rem] overflow-hidden">
 <img alt="Supportive companion mockup" class="w-full h-full object-cover" src="assets/images/splash.png"/>
@@ -230,20 +280,20 @@
 </div>
 <div class="scroll-reveal active">
 <div class="inline-block px-3 py-0.5 bg-sage/10 text-sage rounded-full text-[10px] font-bold uppercase tracking-widest mb-6">The Moya Philosophy</div>
-<h2 class="text-3xl md:text-4xl font-bold mb-8 leading-tight">When the world feels too loud, Moya is here to listen.</h2>
-<div class="space-y-6 text-base text-on-surface-variant leading-relaxed mb-10">
+<h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-8 leading-tight">When the world feels too loud, Moya is here to listen.</h2>
+<div class="space-y-6 text-sm sm:text-base text-on-surface-variant leading-relaxed mb-8 sm:mb-10">
 <p>Life doesn't always wait for us to catch our breath. We often find ourselves <strong>feeling overwhelmed</strong>, keeping heavy emotions locked inside.</p>
 <p><strong>Moya was born to change that.</strong> We position ourselves not just as an app, but as a supportive emotional companion.</p>
 </div>
-<div class="grid grid-cols-2 gap-8">
+<div class="grid grid-cols-2 gap-4 sm:gap-8">
 <div class="space-y-3">
-<span class="material-symbols-outlined text-3xl text-accent">favorite</span>
-<h4 class="text-lg font-bold">Safe Holding</h4>
+<span class="material-symbols-outlined text-2xl sm:text-3xl text-accent">favorite</span>
+<h4 class="text-sm sm:text-base md:text-lg font-bold">Safe Holding</h4>
 <p class="text-xs text-on-surface-variant leading-relaxed">A judgment-free zone for your most private reflections.</p>
 </div>
 <div class="space-y-3">
-<span class="material-symbols-outlined text-3xl text-primary">auto_awesome</span>
-<h4 class="text-lg font-bold">Gentle Clarity</h4>
+<span class="material-symbols-outlined text-2xl sm:text-3xl text-primary">auto_awesome</span>
+<h4 class="text-sm sm:text-base md:text-lg font-bold">Gentle Clarity</h4>
 <p class="text-xs text-on-surface-variant leading-relaxed">Understand your inner rhythms with soft, visual insights.</p>
 </div>
 </div>
@@ -251,61 +301,61 @@
 </div>
 </section>
 <!-- Features Section -->
-<section class="py-24 px-8 md:px-16 relative bg-surface/20" id="features">
+<section class="py-16 sm:py-24 px-6 sm:px-8 md:px-16 relative bg-surface/20" id="features">
 <div class="glow-bg bottom-0 left-0 opacity-30"></div>
 <div class="max-w-5xl mx-auto">
-<div class="text-center max-w-3xl mx-auto mb-16 scroll-reveal active">
+<div class="text-center max-w-3xl mx-auto mb-10 sm:mb-16 scroll-reveal active">
 <div class="inline-block px-3 py-0.5 bg-primary/10 text-primary rounded-full text-[10px] font-bold uppercase tracking-widest mb-4">Transitioning to Growth</div>
-<h2 class="text-3xl md:text-5xl font-bold mb-6">Nurturing your inner world.</h2>
-<p class="text-lg text-on-surface-variant">Discover the gentle tools designed to help you navigate your emotional landscape with ease and grace.</p>
+<h2 class="text-2xl sm:text-3xl md:text-5xl font-bold mb-6">Nurturing your inner world.</h2>
+<p class="text-sm sm:text-base md:text-lg text-on-surface-variant">Discover the gentle tools designed to help you navigate your emotional landscape with ease and grace.</p>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
 <!-- Mood Tracking -->
-<div class="group glass p-7 rounded-xl hover:-translate-y-2 transition-all duration-500 hover:shadow-xl hover:bg-white scroll-reveal active">
-<div class="w-12 h-12 bg-accent/20 text-accent rounded-full flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
-<span class="material-symbols-outlined text-2xl">wb_sunny</span>
+<div class="group glass p-5 sm:p-7 rounded-xl hover:-translate-y-2 transition-all duration-500 hover:shadow-xl hover:bg-white scroll-reveal active">
+<div class="w-10 h-10 sm:w-12 sm:h-12 bg-accent/20 text-accent rounded-full flex items-center justify-center mb-4 sm:mb-5 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-xl sm:text-2xl">wb_sunny</span>
 </div>
-<h3 class="text-xl font-bold mb-3">Mood Tracking</h3>
+<h3 class="text-base sm:text-lg md:text-xl font-bold mb-3">Mood Tracking</h3>
 <p class="text-xs text-on-surface-variant leading-relaxed">Check in daily with our friendly mood characters to build emotional awareness over time.</p>
 </div>
 <!-- Online Journaling -->
-<div class="group glass p-7 rounded-xl hover:-translate-y-2 transition-all duration-500 hover:shadow-xl hover:bg-white scroll-reveal active">
-<div class="w-12 h-12 bg-primary/20 text-primary rounded-full flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
-<span class="material-symbols-outlined text-2xl">edit_note</span>
+<div class="group glass p-5 sm:p-7 rounded-xl hover:-translate-y-2 transition-all duration-500 hover:shadow-xl hover:bg-white scroll-reveal active">
+<div class="w-10 h-10 sm:w-12 sm:h-12 bg-primary/20 text-primary rounded-full flex items-center justify-center mb-4 sm:mb-5 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-xl sm:text-2xl">edit_note</span>
 </div>
-<h3 class="text-xl font-bold mb-3">Online Journaling</h3>
+<h3 class="text-base sm:text-lg md:text-xl font-bold mb-3">Online Journaling</h3>
 <p class="text-xs text-on-surface-variant leading-relaxed">A beautiful, private digital journal for your self-reflections and midnight thoughts.</p>
 </div>
 <!-- Emotional Analytics -->
-<div class="group glass p-7 rounded-xl hover:-translate-y-2 transition-all duration-500 hover:shadow-xl hover:bg-white scroll-reveal active">
-<div class="w-12 h-12 bg-sage/20 text-sage rounded-full flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
-<span class="material-symbols-outlined text-2xl">insights</span>
+<div class="group glass p-5 sm:p-7 rounded-xl hover:-translate-y-2 transition-all duration-500 hover:shadow-xl hover:bg-white scroll-reveal active">
+<div class="w-10 h-10 sm:w-12 sm:h-12 bg-sage/20 text-sage rounded-full flex items-center justify-center mb-4 sm:mb-5 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-xl sm:text-2xl">insights</span>
 </div>
-<h3 class="text-xl font-bold mb-3">Emotional Analytics</h3>
+<h3 class="text-base sm:text-lg md:text-xl font-bold mb-3">Emotional Analytics</h3>
 <p class="text-xs text-on-surface-variant leading-relaxed">Visualize your emotional trends and download detailed reports to track your wellness journey.</p>
 </div>
 <!-- Anonymous Community -->
-<div class="group glass p-7 rounded-xl hover:-translate-y-2 transition-all duration-500 hover:shadow-xl hover:bg-white scroll-reveal active">
-<div class="w-12 h-12 bg-accent/20 text-accent rounded-full flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
-<span class="material-symbols-outlined text-2xl">groups</span>
+<div class="group glass p-5 sm:p-7 rounded-xl hover:-translate-y-2 transition-all duration-500 hover:shadow-xl hover:bg-white scroll-reveal active">
+<div class="w-10 h-10 sm:w-12 sm:h-12 bg-accent/20 text-accent rounded-full flex items-center justify-center mb-4 sm:mb-5 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-xl sm:text-2xl">groups</span>
 </div>
-<h3 class="text-xl font-bold mb-3">Anonymous Community</h3>
+<h3 class="text-base sm:text-lg md:text-xl font-bold mb-3">Anonymous Community</h3>
 <p class="text-xs text-on-surface-variant leading-relaxed">Share your stories and find resonance in a safe, completely anonymous social space.</p>
 </div>
 <!-- Expert Support -->
-<div class="group glass p-7 rounded-xl hover:-translate-y-2 transition-all duration-500 hover:shadow-xl hover:bg-white scroll-reveal active">
-<div class="w-12 h-12 bg-primary/20 text-primary rounded-full flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
-<span class="material-symbols-outlined text-2xl">psychology</span>
+<div class="group glass p-5 sm:p-7 rounded-xl hover:-translate-y-2 transition-all duration-500 hover:shadow-xl hover:bg-white scroll-reveal active">
+<div class="w-10 h-10 sm:w-12 sm:h-12 bg-primary/20 text-primary rounded-full flex items-center justify-center mb-4 sm:mb-5 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-xl sm:text-2xl">psychology</span>
 </div>
-<h3 class="text-xl font-bold mb-3">Expert Support</h3>
+<h3 class="text-base sm:text-lg md:text-xl font-bold mb-3">Expert Support</h3>
 <p class="text-xs text-on-surface-variant leading-relaxed">Directly access trusted psychologists for professional guidance when you need it most.</p>
 </div>
 <!-- Personalized Care -->
-<div class="group glass p-7 rounded-xl hover:-translate-y-2 transition-all duration-500 hover:shadow-xl hover:bg-white scroll-reveal active">
-<div class="w-12 h-12 bg-sage/20 text-sage rounded-full flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
-<span class="material-symbols-outlined text-2xl">auto_fix_high</span>
+<div class="group glass p-5 sm:p-7 rounded-xl hover:-translate-y-2 transition-all duration-500 hover:shadow-xl hover:bg-white scroll-reveal active">
+<div class="w-10 h-10 sm:w-12 sm:h-12 bg-sage/20 text-sage rounded-full flex items-center justify-center mb-4 sm:mb-5 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-xl sm:text-2xl">auto_fix_high</span>
 </div>
-<h3 class="text-xl font-bold mb-3">Personalized Care</h3>
+<h3 class="text-base sm:text-lg md:text-xl font-bold mb-3">Personalized Care</h3>
 <p class="text-xs text-on-surface-variant leading-relaxed">Get dynamic activity recommendations like breathing or prompts based on how you feel.</p>
 </div>
 </div>
@@ -313,12 +363,12 @@
 </section>
 <!-- App Preview -->
 <section class="py-24 bg-white relative overflow-hidden" id="preview">
-<div class="max-w-5xl mx-auto px-8 md:px-16 mb-16 text-center scroll-reveal active">
+<div class="max-w-5xl mx-auto px-6 sm:px-8 md:px-16 mb-16 text-center scroll-reveal active">
 <div class="inline-block px-3 py-0.5 bg-accent/10 text-accent rounded-full text-[10px] font-bold uppercase tracking-widest mb-4">Step Inside</div>
-<h2 class="text-3xl md:text-5xl font-bold mb-6">A space for every feeling.</h2>
-<p class="text-lg text-on-surface-variant max-w-2xl mx-auto">From daily reflections to professional insights, explore how Moya supports every corner of your heart.</p>
+<h2 class="text-2xl sm:text-3xl md:text-5xl font-bold mb-6">A space for every feeling.</h2>
+<p class="text-sm sm:text-base md:text-lg text-on-surface-variant max-w-2xl mx-auto">From daily reflections to professional insights, explore how Moya supports every corner of your heart.</p>
 </div>
-<div class="max-w-5xl mx-auto px-8 md:px-16 scroll-reveal active relative group/carousel">
+<div class="max-w-5xl mx-auto px-6 sm:px-8 md:px-16 scroll-reveal active relative group/carousel">
 <button class="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full glass flex items-center justify-center shadow-lg hover:bg-white transition-all active:scale-95 opacity-0 group-hover/carousel:opacity-100 hidden md:flex" onclick="document.getElementById('preview-scroller').scrollBy({left: -320, behavior: 'smooth'})">
 <span class="material-symbols-outlined text-2xl text-on-surface-variant">chevron_left</span>
 </button>
@@ -358,15 +408,15 @@
 </div>
 </section>
 <!-- Testimonials -->
-<section class="py-24 px-8 md:px-16 relative bg-surface/30" id="testimonials">
+<section class="py-16 sm:py-24 px-6 sm:px-8 md:px-16 relative bg-surface/30" id="testimonials">
 <div class="max-w-5xl mx-auto">
 <div class="max-w-md mx-auto text-center mb-12 scroll-reveal active">
 <div class="inline-block px-3 py-0.5 bg-sage/10 text-sage rounded-full text-[10px] font-bold uppercase tracking-widest mb-4">Real Connections</div>
-<h4 class="text-lg md:text-xl font-bold italic text-on-surface-variant leading-relaxed">"A warm blanket for my mind on the hardest days."</h4>
+<h4 class="text-base md:text-xl font-bold italic text-on-surface-variant leading-relaxed">"A warm blanket for my mind on the hardest days."</h4>
 </div>
 <div class="flex overflow-x-auto gap-6 pb-10 no-scrollbar snap-x snap-mandatory">
 <!-- Review Card 1 -->
-<div class="flex-none w-full md:w-[calc(33.33%-1rem)] snap-center bg-white p-7 rounded-[2rem] shadow-xl border border-white">
+<div class="flex-none w-[85vw] sm:w-[calc(80%-1rem)] md:w-[calc(33.33%-1rem)] snap-center bg-white p-5 sm:p-7 rounded-[2rem] shadow-xl border border-white">
 <div class="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center mb-5 border-4 border-surface shadow-md mx-auto">
     <span class="material-symbols-outlined text-primary text-3xl">
         person
@@ -379,7 +429,7 @@
 </div>
 </div>
 <!-- Review Card 2 -->
-<div class="flex-none w-full md:w-[calc(33.33%-1rem)] snap-center bg-white p-7 rounded-[2rem] shadow-xl border border-white">
+<div class="flex-none w-[85vw] sm:w-[calc(80%-1rem)] md:w-[calc(33.33%-1rem)] snap-center bg-white p-5 sm:p-7 rounded-[2rem] shadow-xl border border-white">
 <div class="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center mb-5 border-4 border-surface shadow-md mx-auto">
     <span class="material-symbols-outlined text-primary text-3xl">
         person
@@ -392,7 +442,7 @@
 </div>
 </div>
 <!-- Review Card 3 -->
-<div class="flex-none w-full md:w-[calc(33.33%-1rem)] snap-center bg-white p-7 rounded-[2rem] shadow-xl border border-white">
+<div class="flex-none w-[85vw] sm:w-[calc(80%-1rem)] md:w-[calc(33.33%-1rem)] snap-center bg-white p-5 sm:p-7 rounded-[2rem] shadow-xl border border-white">
 <div class="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center mb-5 border-4 border-surface shadow-md mx-auto">
     <span class="material-symbols-outlined text-primary text-3xl">
         person
@@ -405,40 +455,40 @@
 </div>
 </div>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
-<div class="text-center p-6 glass rounded-[2rem] scroll-reveal active">
-<h4 class="text-3xl font-bold text-sage mb-1">95%</h4>
+<div class="grid grid-cols-3 gap-3 sm:gap-8 mt-8 sm:mt-10">
+<div class="text-center p-4 sm:p-6 glass rounded-[2rem] scroll-reveal active">
+<h4 class="text-2xl sm:text-3xl font-bold text-sage mb-1">95%</h4>
 <p class="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest">More at peace</p>
 </div>
 <div class="text-center p-6 glass rounded-[2rem] scroll-reveal active" style="transition-delay: 100ms;">
-<h4 class="text-3xl font-bold text-accent mb-1">1.2M</h4>
+<h4 class="text-2xl sm:text-3xl font-bold text-accent mb-1">1.2M</h4>
 <p class="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest">Reflections</p>
 </div>
 <div class="text-center p-6 glass rounded-[2rem] scroll-reveal active" style="transition-delay: 200ms;">
-<h4 class="text-3xl font-bold text-primary mb-1">4.9</h4>
+<h4 class="text-2xl sm:text-3xl font-bold text-primary mb-1">4.9</h4>
 <p class="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest">Store Rating</p>
 </div>
 </div>
 </div>
 </section>
 <!-- Resources Section -->
-<section class="py-24 px-8 md:px-16 relative bg-background overflow-hidden" id="resources">
+<section class="py-16 sm:py-24 px-6 sm:px-8 md:px-16 relative bg-background overflow-hidden" id="resources">
 <div class="glow-bg top-1/2 left-0 opacity-20"></div>
 <div class="max-w-5xl mx-auto">
-<div class="text-center mb-16 scroll-reveal active">
+<div class="text-center mb-10 sm:mb-16 scroll-reveal active">
 <div class="inline-block px-3 py-0.5 bg-primary/10 text-primary rounded-full text-[10px] font-bold uppercase tracking-widest mb-4">Deepen Your Practice</div>
-<h2 class="text-3xl md:text-5xl font-bold mb-6">Learning &amp; Resources</h2>
-<p class="text-lg text-on-surface-variant max-w-xl mx-auto">Explore our curated collection of guides and documentation to make the most of your journey.</p>
+<h2 class="text-2xl sm:text-3xl md:text-5xl font-bold mb-6">Learning &amp; Resources</h2>
+<p class="text-sm sm:text-base md:text-lg text-on-surface-variant max-w-xl mx-auto">Explore our curated collection of guides and documentation to make the most of your journey.</p>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-8">
 <!-- Resource 1 -->
 <div class="bg-white rounded-[2rem] overflow-hidden shadow-xl hover:shadow-2xl transition-all group scroll-reveal border border-surface/30 active">
-<div class="h-48 bg-accent/10 relative overflow-hidden">
+<div class="h-36 sm:h-48 bg-accent/10 relative overflow-hidden">
 <img alt="Manual Book" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" src="assets/images/manual.jpg"/>
 <div class="absolute inset-0 bg-gradient-to-t from-accent/40 to-transparent"></div>
 </div>
-<div class="p-7">
-<h4 class="text-xl font-bold mb-3">Manual Book</h4>
+<div class="p-5 sm:p-7">
+<h4 class="text-base sm:text-lg md:text-xl font-bold mb-3">Manual Book</h4>
 <p class="text-on-surface-variant mb-6 text-xs leading-relaxed">A comprehensive guide on emotional intelligence and how to use Moya features effectively.</p>
 <button class="w-full py-3 rounded-full border-2 border-accent text-on-surface text-sm font-bold hover:bg-accent hover:text-white transition-all flex items-center justify-center gap-2">
 <span class="material-symbols-outlined text-lg">download</span> <a href="https://drive.google.com/file/d/1yUf2mrRE0LMLpU5bxDXnO-Bs-W_e9Y0i/view?usp=sharing" target="_blank">Download PDF</a>
@@ -447,12 +497,12 @@
 </div>
 <!-- Resource 2 -->
 <div class="bg-white rounded-[2rem] overflow-hidden shadow-xl hover:shadow-2xl transition-all group scroll-reveal border border-surface/30 active" style="transition-delay: 100ms;">
-<div class="h-48 bg-primary/10 relative overflow-hidden">
+<div class="h-36 sm:h-48 bg-primary/10 relative overflow-hidden">
 <img alt="Promotional Poster" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" src="assets/images/poster.png"/>
 <div class="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
 </div>
-<div class="p-7">
-<h4 class="text-xl font-bold mb-3">Promotional Poster</h4>
+<div class="p-5 sm:p-7">
+<h4 class="text-base sm:text-lg md:text-xl font-bold mb-3">Promotional Poster</h4>
 <p class="text-on-surface-variant mb-6 text-xs leading-relaxed">Visual reminders for mindfulness and self-care. Perfect for your home or office space.</p>
 <button class="w-full py-3 rounded-full border-2 border-primary text-on-surface text-sm font-bold hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2">
 <span class="material-symbols-outlined text-lg">image</span> <a href="assets/images/poster.png" target="_blank"s>
@@ -463,12 +513,12 @@ View Poster
 </div>
 <!-- Resource 3 -->
 <div class="bg-white rounded-[2rem] overflow-hidden shadow-xl hover:shadow-2xl transition-all group scroll-reveal border border-surface/30 active" style="transition-delay: 200ms;">
-<div class="h-48 bg-sage/10 relative overflow-hidden">
+<div class="h-36 sm:h-48 bg-sage/10 relative overflow-hidden">
 <img alt="Project Documentation" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" src="assets/images/cover.jpg"/>
 <div class="absolute inset-0 bg-gradient-to-t from-sage/40 to-transparent"></div>
 </div>
-<div class="p-7">
-<h4 class="text-xl font-bold mb-3">Project Documentation</h4>
+<div class="p-5 sm:p-7">
+<h4 class="text-base sm:text-lg md:text-xl font-bold mb-3">Project Documentation</h4>
 <p class="text-on-surface-variant mb-6 text-xs leading-relaxed">Access the complete final report, including system requirements and testing results.</p>
 <button class="w-full py-3 rounded-full border-2 border-sage text-on-surface text-sm font-bold hover:bg-sage hover:text-white transition-all flex items-center justify-center gap-2">
 <span class="material-symbols-outlined text-lg">menu_book</span><a href="https://drive.google.com/file/d/1HBz-fNq4TZAeBP8vhO45nfUB65XI_can/view?usp=sharing" target="_blank">Open Docs</a>
@@ -479,41 +529,41 @@ View Poster
 </div>
 </section>
 <!-- Technology Stack -->
-<section class="py-24 px-8 md:px-16 bg-soft-blue/5">
+<section class="py-16 sm:py-24 px-6 sm:px-8 md:px-16 bg-soft-blue/5">
 <div class="max-w-5xl mx-auto text-center scroll-reveal active">
-<h2 class="text-2xl font-bold mb-12">Built with Care &amp; Innovation</h2>
+<h2 class="text-xl sm:text-2xl font-bold mb-10 sm:mb-12">Built with Care &amp; Innovation</h2>
 <div class="flex flex-wrap justify-center gap-10 md:gap-16 opacity-60">
 <div class="flex flex-col items-center gap-2">
-<span class="material-symbols-outlined text-4xl">flutter_dash</span>
+<span class="material-symbols-outlined text-3xl sm:text-4xl">flutter_dash</span>
 <span class="font-bold text-[10px]">Flutter</span>
 </div>
 <div class="flex flex-col items-center gap-2">
-<span class="material-symbols-outlined text-4xl">code</span>
+<span class="material-symbols-outlined text-3xl sm:text-4xl">code</span>
 <span class="font-bold text-[10px]">Dart</span>
 </div>
 <div class="flex flex-col items-center gap-2">
-<span class="material-symbols-outlined text-4xl">database</span>
+<span class="material-symbols-outlined text-3xl sm:text-4xl">database</span>
 <span class="font-bold text-[10px]">Firebase</span>
 </div>
 <div class="flex flex-col items-center gap-2">
-<span class="material-symbols-outlined text-4xl">storage</span>
+<span class="material-symbols-outlined text-3xl sm:text-4xl">storage</span>
 <span class="font-bold text-[10px]">Firestore</span>
 </div>
 <div class="flex flex-col items-center gap-2">
-<span class="material-symbols-outlined text-4xl">cloud_upload</span>
+<span class="material-symbols-outlined text-3xl sm:text-4xl">cloud_upload</span>
 <span class="font-bold text-[10px]">Cloudinary</span>
 </div>
 </div>
 </div>
 </section>
 <!-- Final CTA Section -->
-<section class="py-24 px-8 md:px-16 relative">
-<div class="max-w-4xl mx-auto rounded-[2.5rem] bg-gradient-to-br from-primary via-surface to-accent p-10 md:p-14 text-center shadow-2xl relative overflow-hidden scroll-reveal active">
+<section class="py-16 sm:py-24 px-6 sm:px-8 md:px-16 relative">
+<div class="max-w-4xl mx-auto rounded-[2rem] sm:rounded-[2.5rem] bg-gradient-to-br from-primary via-surface to-accent p-8 sm:p-10 md:p-14 text-center shadow-2xl relative overflow-hidden scroll-reveal active">
 <div class="absolute top-0 left-0 w-48 h-48 bg-white/20 blur-[60px] animate-breathe"></div>
 <div class="absolute bottom-0 right-0 w-48 h-48 bg-sage/20 blur-[60px] animate-breathe"></div>
 <div class="relative z-10">
-<h2 class="text-3xl md:text-4xl font-bold mb-6 leading-tight">Your Feelings Matter.</h2>
-<p class="text-base text-on-surface-variant mb-8 max-w-lg mx-auto leading-relaxed">Start your journey today and build a more compassionate relationship with yourself.</p>
+<h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 leading-tight">Your Feelings Matter.</h2>
+<p class="text-sm sm:text-base text-on-surface-variant mb-6 sm:mb-8 max-w-lg mx-auto leading-relaxed">Start your journey today and build a more compassionate relationship with yourself.</p>
 <div class="flex flex-col sm:flex-row justify-center gap-4">
 <button class="bg-on-surface text-white px-8 py-3.5 rounded-full text-base font-bold hover:shadow-2xl hover:-translate-y-1 transition-all"><a href="https://bit.ly/moya-app-release" target="_blank" class="text-white no-underline">Download App</a></button>
 </div>
@@ -521,10 +571,10 @@ View Poster
 </div>
 </section>
 <!-- Footer -->
-<footer class="py-20 px-8 md:px-16 border-t border-surface bg-white/50">
-<div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
-<div class="space-y-6">
-<div class="text-2xl font-bold text-sage flex items-center gap-2">
+<footer class="py-14 sm:py-20 px-6 sm:px-8 md:px-16 border-t border-surface bg-white/50">
+<div class="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-12">
+<div class="space-y-4 sm:space-y-6 col-span-2 md:col-span-1">
+<div class="text-xl sm:text-2xl font-bold text-sage flex items-center gap-2">
 <img
     src="assets/images/logo.png"
     alt="Moya Logo"
@@ -553,10 +603,10 @@ View Poster
 <div>
 <h5 class="font-bold mb-6 text-sm">Contact</h5>
 <p class="text-on-surface-variant mb-3 text-xs">We're here to listen.</p>
-<p class="font-bold text-sage text-base">hello@moya.app</p>
+<p class="font-bold text-sage text-sm sm:text-base">hello@moya.app</p>
 </div>
 </div>
-<div class="max-w-5xl mx-auto mt-16 pt-10 border-t border-surface flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-semibold text-on-surface-variant/70 tracking-widest">
+<div class="max-w-5xl mx-auto mt-10 sm:mt-16 pt-8 sm:pt-10 border-t border-surface flex flex-col md:flex-row justify-between items-center gap-4 sm:gap-6 text-[10px] font-semibold text-on-surface-variant/70 tracking-widest text-center">
 <p>© 2026 MOYA WELLNESS. YOU ARE ENOUGH.</p>
 <div class="flex gap-8">
 <a class="hover:text-sage" href="#">PRIVACY</a>
@@ -635,5 +685,22 @@ View Poster
     }, { threshold: 0.1 });
 
     document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+
+    // Mobile menu
+    function toggleMobileMenu() {
+        const menu = document.getElementById('mobile-menu');
+        const btn = document.getElementById('hamburger-btn');
+        menu.classList.toggle('open');
+        btn.classList.toggle('open');
+        document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+    }
+    function closeMobileMenu() {
+        const menu = document.getElementById('mobile-menu');
+        const btn = document.getElementById('hamburger-btn');
+        menu.classList.remove('open');
+        btn.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
 </script>
 </body></html>
